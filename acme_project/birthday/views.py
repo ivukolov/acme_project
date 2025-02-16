@@ -1,5 +1,3 @@
-from django.shortcuts import render, get_object_or_404, redirect
-from django.core.paginator import Paginator
 from django.views.generic import (
     CreateView, DeleteView, DetailView, ListView, UpdateView
 )
@@ -7,9 +5,7 @@ from django.urls import reverse_lazy
 
 from .forms import BirthdayForm
 from .models import Birthday
-# Импортируем из utils.py функцию для подсчёта дней.
 from .utils import calculate_birthday_countdown
-
 
 # def birthday(request, pk=None):
 #     if pk is not None:
@@ -35,47 +31,6 @@ from .utils import calculate_birthday_countdown
 #         # Обновляем словарь контекста: добавляем в него новый элемент.
 #         context.update({'birthday_countdown': birthday_countdown})
 #     return render(request, 'birthday/birthday.html', context)
-class BirthdayMixin:
-    model = Birthday
-    success_url = reverse_lazy('birthday:list')
-
-
-class BirthdayFormMixin:
-    form_class = BirthdayForm
-    template_name = 'birthday/birthday.html'
-
-
-class BirthdayCreateView(BirthdayMixin, BirthdayFormMixin, CreateView):
-    pass
-
-
-class BirthdayUpdateView(BirthdayMixin, BirthdayFormMixin, UpdateView):
-    pass
-
-
-class BirthdayDeleteView(BirthdayMixin, DeleteView):
-    pass
-
-
-class BirthdayListView(ListView):
-    model = Birthday
-    ordering = 'id'
-    paginate_by = 2
-
-
-class BirthdayDetailView(DetailView):
-    model = Birthday
-
-    def get_context_data(self, **kwargs):
-        # Получаем словарь контекста:
-        context = super().get_context_data(**kwargs)
-        # Добавляем в словарь новый ключ:
-        context['birthday_countdown'] = calculate_birthday_countdown(
-            # Дату рождения берём из объекта в словаре context:
-            self.object.birthday
-        )
-        # Возвращаем словарь контекста.
-        return context
 
 
 # Аналог класса BirthdayListView в виде функции.
@@ -112,3 +67,36 @@ class BirthdayDetailView(DetailView):
 #     # Если был получен GET-запрос — отображаем форму.
 #     return render(request, 'birthday/birthday.html', context)
 
+
+class BirthdayListView(ListView):
+    model = Birthday
+    ordering = 'id'
+    paginate_by = 10
+
+
+class BirthdayMixin:
+    model = Birthday
+    success_url = reverse_lazy('birthday:list')
+
+
+class BirthdayCreateView(BirthdayMixin, CreateView):
+    form_class = BirthdayForm
+
+
+class BirthdayUpdateView(BirthdayMixin, UpdateView):
+    form_class = BirthdayForm
+
+
+class BirthdayDeleteView(BirthdayMixin, DeleteView):
+    pass
+
+
+class BirthdayDetailView(DetailView):
+    model = Birthday
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['birthday_countdown'] = calculate_birthday_countdown(
+            self.object.birthday
+        )
+        return context
