@@ -18,6 +18,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'birthday.apps.BirthdayConfig',
     'pages.apps.PagesConfig',
+    'debug_toolbar',
 ]
 
 MIDDLEWARE = [
@@ -28,11 +29,18 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'debug_toolbar.middleware.DebugToolbarMiddleware',
 ]
+
+INTERNAL_IPS = [
+    '127.0.0.1',
+] 
 
 ROOT_URLCONF = 'acme_project.urls'
 
 TEMPLATES_DIR = BASE_DIR / 'templates'
+
+MEDIA_ROOT = BASE_DIR / 'media'
 
 TEMPLATES = [
     {
@@ -73,6 +81,15 @@ AUTH_PASSWORD_VALIDATORS = [
         'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
     },
 ]
+
+# Переопределяем форматы ввода даты
+# DATE_INPUT_FORMATS = [
+#     '%Y-%m-%d',  # '2006-10-25'
+#     '%d/%m/%Y',  # '25/10/2006'
+#     '%d.%m.%Y',  # '25.10.2006'
+#     '%d-%m-%Y',  # '25-10-2006'
+#     '%m/%d/%Y',  # '10/25/2006' (американский формат)
+# ]
 
 LANGUAGE_CODE = 'ru-RU'
 
