@@ -6,6 +6,35 @@ SECRET_KEY = 'django-insecure-m&$lzdzkutvrbr5vt=jpm)7#g7cken_tk%($ty+w902n7wb#=e
 
 DEBUG = True
 
+ROOT_URLCONF = 'acme_project.urls'
+
+LOGIN_REDIRECT_URL = 'pages:homepage'
+
+LOGIN_URL = 'login'
+
+STATIC_URL = '/static/'
+
+TEMPLATES_DIR = BASE_DIR / 'templates'
+
+MEDIA_ROOT = BASE_DIR / 'media'
+
+LANGUAGE_CODE = 'ru-RU'
+
+TIME_ZONE = 'UTC'
+
+USE_I18N = True
+
+USE_L10N = False
+
+USE_TZ = True
+
+DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+# Подключаем бэкенд filebased.EmailBackend:
+EMAIL_BACKEND = 'django.core.mail.backends.filebased.EmailBackend'
+# Указываем директорию, в которую будут сохраняться файлы писем:
+EMAIL_FILE_PATH = BASE_DIR / 'sent_emails' 
+
 ALLOWED_HOSTS = []
 
 INSTALLED_APPS = [
@@ -34,13 +63,7 @@ MIDDLEWARE = [
 
 INTERNAL_IPS = [
     '127.0.0.1',
-] 
-
-ROOT_URLCONF = 'acme_project.urls'
-
-TEMPLATES_DIR = BASE_DIR / 'templates'
-
-MEDIA_ROOT = BASE_DIR / 'media'
+]
 
 TEMPLATES = [
     {
@@ -90,17 +113,3 @@ AUTH_PASSWORD_VALIDATORS = [
 #     '%d-%m-%Y',  # '25-10-2006'
 #     '%m/%d/%Y',  # '10/25/2006' (американский формат)
 # ]
-
-LANGUAGE_CODE = 'ru-RU'
-
-TIME_ZONE = 'UTC'
-
-USE_I18N = True
-
-USE_L10N = False
-
-USE_TZ = True
-
-STATIC_URL = '/static/'
-
-DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
